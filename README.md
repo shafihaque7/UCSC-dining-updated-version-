@@ -1,6 +1,6 @@
 # UCSC Dining
 
-> A Vue.js project
+> Dining Hall application for UC Santa Cruz. Optimized for mobile.
 
 ## Build Setup
 
