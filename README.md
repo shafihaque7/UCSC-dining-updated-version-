@@ -1,6 +1,7 @@
 # UCSC Dining
 
 > Dining Hall application for UC Santa Cruz. Optimized for mobile.
+
 > Technologies used: Node.js, Firebase Firestore, Vue js, Vuetify, HTML, CSS, JavaScript, Cron
 
 ## Build Setup
