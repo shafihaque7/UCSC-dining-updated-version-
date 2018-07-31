@@ -15,7 +15,7 @@ npm run dev
 ```
 
 
-https://ucscdining.com
+Link to this app: https://ucscdining.com
 
 ![main](https://github.com/shafihaque7/UCSC-dining-updated-version-/blob/master/2018-07-31%2018.10.55.gif)
 
