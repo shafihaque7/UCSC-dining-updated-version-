@@ -1,0 +1,11 @@
+{
+
+   "author": "Shafi Haque",
+   "background_color": "#ffffff",
+   "description": "Ucsc Dining ",
+   "display": "standalone",
+   "name": "UCSC dining",
+   "orientation": "portrait",
+   "start_url": "/",
+   "theme_color": "#ffffff"
+}
