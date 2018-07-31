@@ -19,3 +19,6 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+
+![main](https://github.com/shafihaque7/UCSC-dining-updated-version-/blob/master/2018-07-31%2018.10.55.gif)
