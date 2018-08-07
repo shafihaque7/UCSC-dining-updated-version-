@@ -1,4 +1,7 @@
 #!/bin/bash
 
+git add .
+git commit -m "New UI update"
+git push
 npm run build
 firebase deploy

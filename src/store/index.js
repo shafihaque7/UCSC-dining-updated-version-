@@ -43,6 +43,8 @@ export const store = new Vuex.Store({
          var dinnerMenu = []
          var lateNightMenu = []
 
+         var count = 0
+
          db.collection("allitems").where("dininghallname", "==", currentDiningHall)
          .orderBy("order").get()
          .then(function(querySnapshot) {
@@ -52,6 +54,7 @@ export const store = new Vuex.Store({
                   var food = {
                      name: doc.data().food
                   };
+                  
                   
                   switch (doc.data().timeofmeal){
                      case 'Breakfast':

@@ -49,23 +49,53 @@
          </v-tab>
        </v-tabs>
      </v-toolbar>
+     <!-- <v-layout row>
+         <v-flex >
+       <v-carousel>
+         <v-carousel-item
+           v-for="(pic,i) in pics"
+           :key="i"
+           :src="pic.src"
+         ></v-carousel-item>
+       </v-carousel>
+         </v-flex>
+         </v-layout> -->
      
      <v-tabs-items  v-model="tab">
+       
        <v-tab-item 
          v-for="item in items"
          :key="item.meal"
          
        >
+       
+      
 
-         
-         
          <v-card flat>
-               
+            
          
-        
+            
 
             <v-card-text v-for="foodName in item.menu" :key="foodName.index">{{ foodName.name }}
            </v-card-text>
+
+
+           <div v-if="item.menu.length == 0">
+               <br/>
+               <center><h1>Closed</h1></center>
+            </div>
+
+
+           <v-card-text v-for="space in spaces" :key="space.index">
+            <br/>
+            </v-card-text>
+
+            
+
+
+
+
+      
 
          
          </v-card>
@@ -76,6 +106,8 @@
        </v-tab-item>
        
      </v-tabs-items>
+  
+
    
    </div>
  </template>
@@ -87,6 +119,26 @@
        return {
          drawer: null,
          tab: null,
+         closed: false,
+ 
+         pics: [
+          {
+            src: 'https://www.recipetineats.com/wp-content/uploads/2018/04/Veggie-Burgers_9a.jpg'
+          },
+          {
+            src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
+          },
+          {
+            src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'
+          },
+          {
+            src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg'
+          }
+        ]
+
+       
+    
+         
   
 
          
@@ -107,6 +159,56 @@
         diningHalls(){
            return this.$store.state.diningHalls
         },
+        spaces(){
+
+
+           var items = this.$store.state.items
+
+           var Breakfast = 0;
+           var Lunch = 1;
+           var Dinner = 2;
+           var LateNight = 3;
+
+           var spaceToFill = 13;
+
+         //   if (parseInt(this.tab) == Breakfast){
+
+         //      var theLength = items[Breakfast].menu.length
+              
+         //       // theLength == 0 ? this.closed = true : this.closed = false
+
+         //      return spaceToFill - theLength
+         //   }
+         //   else if (parseInt(this.tab) == Lunch){
+
+         //    console.log(items[Lunch])
+         //    var theLength = items[Lunch].menu.length
+            
+         //    // theLength == 0 ? this.closed = true : this.closed = false
+
+         //    return spaceToFill - theLength
+         //   }
+         //   else if (parseInt(this.tab) == Dinner){
+         //    var theLength = items[Dinner].menu.length
+         //    // theLength == 0 ? this.closed = true : this.closed = false
+         //    return spaceToFill - theLength
+
+         //   }
+         //   else if (parseInt(this.tab) == LateNight){
+         //       var theLength = items[LateNight].menu.length
+         //    //   theLength == 0 ? this.closed = true : this.closed = false
+         //      return spaceToFill - theLength
+         //   }
+         //   else {
+         //      console.log(this.tab)
+         //      return spaceToFill
+         //   }
+
+
+           return 5
+
+      
+        }
         
      },
      
@@ -131,7 +233,7 @@
     },
     methods:{
        initialize(theRoute){
-          console.log(theRoute.params.dininghall)
+          console.log( theRoute.params.dininghall )
           this.$store.dispatch('fetchDiningHall', theRoute.params.dininghall)
          //  this.$store.state.selectedDiningHall = theRoute.params.dininghall
 
@@ -150,3 +252,4 @@
     
    
  </script>
+
