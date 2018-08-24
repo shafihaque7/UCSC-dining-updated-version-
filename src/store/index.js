@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import db from '../firebaseInit'
+
+import { db,fstorage } from '../main'
+
+
+
 
 Vue.use(Vuex)
 
@@ -12,6 +16,7 @@ export const store = new Vuex.Store({
        selectedDiningHall: null,
        diningHalls: [{title: 'Colleges Nine & Ten', icon: 'face'},{title: 'Cowell/Stevenson', icon: 'dns'},{title: 'Crown/Merrill', icon: 'eject'},{title: 'Porter/Kresge', icon: 'event_seat'},{title: 'Rachel Carson/Oakes', icon: 'explore'} ],
        currentMenu: null,
+       pictures: []
 
    },
    mutations: { // This is where the modification to the state is hapenning
@@ -29,6 +34,14 @@ export const store = new Vuex.Store({
 
          //   state.items[0].menu[0].name = payload.lunch
 
+        },
+        addPics(state, payload){
+           console.log(payload)
+           state.pictures = payload
+
+        },
+        addOnePic(state, payload){
+           state.pictures.unshift(payload)
         }
 
    },
@@ -95,8 +108,53 @@ export const store = new Vuex.Store({
          
 
 
-      }
+      },
+      createPic ({commit, getters}, payload) {
+         const filename = payload.image.name
+         const ext = filename.slice(filename.lastIndexOf('.'))
+         fstorage.ref('meetups/' + payload.title + ext).put(payload.image)
+         .then( (snapshot) => {
+            var filePath =  snapshot.metadata.fullPath
+            return fstorage.ref(filePath).getDownloadURL()
+         })
+         .then((img) => {
+            console.log(img)
 
+            var picData = {
+               food: payload.title,
+               url: img
+            }
+
+            db.collection('pictures').doc().set(picData)
+            commit('addOnePic', picData)
+         })
+         // Reach out to firebase and store it
+      },
+
+      fetchPics({commit}, payload){
+         console.log('This is fetching image for ' + payload)
+
+         var imageForPics = []
+
+         var foodName = payload
+
+         db.collection("pictures").where("food", "==", foodName)
+         .get()
+         .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                  // console.log(doc.data())
+                  imageForPics.push(doc.data())
+            });
+         })
+         .catch(function(error) {
+            console.log("Error getting documents: ", error);
+         });
+
+      //   console.log(imageForPics)
+
+         commit('addPics',imageForPics)
+
+      }
    },
    getters: {
       

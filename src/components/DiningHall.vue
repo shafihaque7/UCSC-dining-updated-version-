@@ -76,7 +76,7 @@
          
             
 
-            <v-card-text v-for="foodName in item.menu" :key="foodName.index">{{ foodName.name }}
+            <v-card-text @click= "goToPicture(foodName.name)" v-for="foodName in item.menu" :key="foodName.index">{{ foodName.name }}
            </v-card-text>
 
 
@@ -106,8 +106,6 @@
        </v-tab-item>
        
      </v-tabs-items>
-  
-
    
    </div>
  </template>
@@ -120,6 +118,7 @@
          drawer: null,
          tab: null,
          closed: false,
+         bottomNav: 'recent',
  
          pics: [
           {
@@ -145,10 +144,9 @@
        }
      },
      computed:{
+   
 
-        subtrackt(thedata){
-           console.log(thedata)
-        },
+       
         
         items(){
            return this.$store.state.items
@@ -232,10 +230,16 @@
 
     },
     methods:{
+      
        initialize(theRoute){
           console.log( theRoute.params.dininghall )
           this.$store.dispatch('fetchDiningHall', theRoute.params.dininghall)
          //  this.$store.state.selectedDiningHall = theRoute.params.dininghall
+
+       },
+       goToPicture(food){
+          console.log(food)
+          this.$router.push({ name: 'CreatePicture', params: { foodName: food }})
 
        },
        
