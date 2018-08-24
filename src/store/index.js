@@ -36,7 +36,7 @@ export const store = new Vuex.Store({
 
         },
         addPics(state, payload){
-           console.log(payload)
+         //   console.log(payload)
            state.pictures = payload
 
         },
@@ -118,7 +118,7 @@ export const store = new Vuex.Store({
             return fstorage.ref(filePath).getDownloadURL()
          })
          .then((img) => {
-            console.log(img)
+            // console.log(img)
 
             var picData = {
                food: payload.title,
@@ -127,6 +127,10 @@ export const store = new Vuex.Store({
 
             db.collection('pictures').doc().set(picData)
             commit('addOnePic', picData)
+            return picData.url
+         })
+         .then ( imgUrl => {
+            console.log(imgUrl)
          })
          // Reach out to firebase and store it
       },
