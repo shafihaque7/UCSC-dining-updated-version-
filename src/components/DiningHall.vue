@@ -230,7 +230,7 @@
 
     },
     methods:{
-      
+      // 
        initialize(theRoute){
           console.log( theRoute.params.dininghall )
           this.$store.dispatch('fetchDiningHall', theRoute.params.dininghall)
@@ -239,7 +239,7 @@
        },
        goToPicture(food){
           console.log(food)
-          this.$router.push({ name: 'CreatePicture', params: { foodName: food }})
+         //  this.$router.push({ name: 'CreatePicture', params: { foodName: food }})
 
        },
        

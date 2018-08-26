@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import { db,fstorage } from '../main'
-
+import axios from 'axios'
 
 
 
@@ -16,7 +16,8 @@ export const store = new Vuex.Store({
        selectedDiningHall: null,
        diningHalls: [{title: 'Colleges Nine & Ten', icon: 'face'},{title: 'Cowell/Stevenson', icon: 'dns'},{title: 'Crown/Merrill', icon: 'eject'},{title: 'Porter/Kresge', icon: 'event_seat'},{title: 'Rachel Carson/Oakes', icon: 'explore'} ],
        currentMenu: null,
-       pictures: []
+       pictures: [],
+       labels: []
 
    },
    mutations: { // This is where the modification to the state is hapenning
@@ -41,6 +42,27 @@ export const store = new Vuex.Store({
 
         },
         addOnePic(state, payload){
+           console.log('This is from mutations' + payload.url)
+
+           let theImageUrl = payload.url
+
+         axios.get('https://us-central1-ucscdining2.cloudfunctions.net/helloWorld', {
+            params: {
+               url: payload.url
+            }
+         })
+         .then(function (response) {
+            console.log(response.data);
+            state.labels = response.data
+         })
+         .catch(function (error) {
+            console.log(error);
+         })
+         .then(function () {
+            // always executed
+         }); 
+
+
            state.pictures.unshift(payload)
         }
 
@@ -130,7 +152,9 @@ export const store = new Vuex.Store({
             return picData.url
          })
          .then ( imgUrl => {
-            console.log(imgUrl)
+            // console.log('this is where the img url is' + imgUrl)
+            
+         
          })
          // Reach out to firebase and store it
       },

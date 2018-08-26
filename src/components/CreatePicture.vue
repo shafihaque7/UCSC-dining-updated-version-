@@ -54,6 +54,19 @@
                     type="submit">Add Picture</v-btn>
                 </v-flex>
               </v-layout>
+
+
+              <v-layout row>
+               <v-flex xs12 sm6 offset-sm3>
+
+                     <h3 v-for="(label,index) in labels" :key="index">{{ label.description }}</h3>
+                 
+               </v-flex>
+             </v-layout>
+
+              
+
+
             </form>
           </v-flex>
         </v-layout>
@@ -61,6 +74,7 @@
     </template>
     
     <script>
+       import axios from 'axios'
       export default {
         data () {
           return {
@@ -72,6 +86,27 @@
         },
         created (){
             this.initialize(this.$route)
+
+      //   axios.get('https://us-central1-ucscdining2.cloudfunctions.net/helloWorld', {
+      //       params: {
+      //          url: encodeURI('https://images.pexels.com/photos/127673/pexels-photo-127673.jpeg?auto=compress&cs=tinysrgb&h=350')
+      //       }
+      //    })
+      //    .then(function (response) {
+      //       console.log(response.data);
+      //    })
+      //    .catch(function (error) {
+      //       console.log(error);
+      //    })
+      //    .then(function () {
+      //       // always executed
+      //    });  
+
+
+
+
+            
+
         },
       
         beforeRouteUpdate (to, from, next) {
@@ -86,6 +121,9 @@
           },
           pictures() {
              return this.$store.state.pictures
+          },
+          labels() {
+             return this.$store.state.labels
           }
         },
         methods: {
@@ -103,6 +141,8 @@
             if (!this.image) {
               return
             }
+            
+
             const meetupData = {
                title: this.title,
               image: this.image,
