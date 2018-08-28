@@ -14,7 +14,7 @@ export const store = new Vuex.Store({
          { meal: 'Breakfast', menu: [] }, { meal: 'Lunch', menu: [] }, { meal: 'Dinner', menu: [] }, { meal: 'Late Night', menu: [] }
       ],
       selectedDiningHall: null,
-      diningHalls: [{ title: 'Colleges Nine & Ten', icon: 'face' }, { title: 'Cowell/Stevenson', icon: 'dns' }, { title: 'Crown/Merrill', icon: 'eject' }, { title: 'Porter/Kresge', icon: 'event_seat' }, { title: 'Rachel Carson/Oakes', icon: 'explore' }],
+      diningHalls: [{ title: 'Colleges Nine & Ten', icon: 'local_pizza' }, { title: 'Cowell/Stevenson', icon: 'dns' }, { title: 'Crown/Merrill', icon: 'eject' }, { title: 'Porter/Kresge', icon: 'event_seat' }, { title: 'Rachel Carson/Oakes', icon: 'explore' }],
       currentMenu: null,
       pictures: [],
       labels: [],
@@ -59,6 +59,7 @@ export const store = new Vuex.Store({
             .then(function (response) {
                console.log(response.data);
                state.labels = response.data
+               
             })
             .catch(function (error) {
                console.log(error);
@@ -69,6 +70,31 @@ export const store = new Vuex.Store({
 
 
          state.pictures.unshift(payload)
+      },
+      addMLlabels(state, payload) {
+         console.log('This is from mutations' + payload.url)
+
+         let theImageUrl = payload.url
+
+         axios.get('https://us-central1-ucscdining2.cloudfunctions.net/helloWorld', {
+            params: {
+               url: payload.url
+            }
+         })
+            .then(function (response) {
+               console.log(response.data);
+               state.labels = response.data
+               state.progressBar = false
+            })
+            .catch(function (error) {
+               console.log(error);
+            })
+            .then(function () {
+               // always executed
+            });
+
+
+         // state.pictures.unshift(payload)
       }
 
    },
@@ -161,6 +187,27 @@ export const store = new Vuex.Store({
                // console.log('this is where the img url is' + imgUrl)
 
 
+            })
+         // Reach out to firebase and store it
+      },
+      mlImage({ commit, getters }, payload) {
+         const filename = payload.image.name
+         const ext = filename.slice(filename.lastIndexOf('.'))
+         fstorage.ref('machinelearning/' + payload.title + ext).put(payload.image)
+            .then((snapshot) => {
+               var filePath = snapshot.metadata.fullPath
+               return fstorage.ref(filePath).getDownloadURL()
+            })
+            .then((img) => {
+               // console.log(img)
+
+               var picData = {
+                  food: payload.title,
+                  url: img
+               }
+               commit('addMLlabels', picData)
+
+             
             })
          // Reach out to firebase and store it
       },

@@ -37,13 +37,14 @@ export default {
 </script>
 
 <style>
-      #theprogressbar { 
-         position: fixed;
-       top: 50%;
-       left: 50%;
-       width: 100%;
-       height: 100%;
-       z-index:99;
-         }
-   
-   </style>
+#theprogressbar { 
+   margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%); 
+   z-index:10;
+}
+
+</style>

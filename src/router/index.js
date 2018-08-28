@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import DiningHall from '@/components/DiningHall'
 import CreatePicture from '@/components/CreatePicture'
 import AllPictures from '@/components/allpictures'
+import CloudVision from '@/components/CloudVision'
 
 Vue.use(Router)
 
@@ -17,6 +18,12 @@ const router= new Router({
       name: 'AllPictures',
       component: AllPictures
    },
+   {
+      path: '/cloudvision',
+      name: 'CloudVision',
+      component: CloudVision
+   },
+
     {
       path: '/create/:foodName',
       name: 'CreatePicture',
