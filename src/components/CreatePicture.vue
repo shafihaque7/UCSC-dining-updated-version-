@@ -128,6 +128,7 @@
         },
         methods: {
          initialize(theRoute){
+            this.$store.state.progressBar = true
           console.log( theRoute.params.foodName )
           this.title = theRoute.params.foodName
           this.$store.dispatch('fetchPics', theRoute.params.foodName)

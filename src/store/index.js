@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { db,fstorage } from '../main'
+import { db, fstorage } from '../main'
 import axios from 'axios'
 
 
@@ -11,67 +11,73 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
    state: {
       items: [
-         {meal: 'Breakfast' , menu:[]}, {meal: 'Lunch', menu: []}, {meal: 'Dinner', menu: []}, {meal: 'Late Night', menu: []}
-       ],
-       selectedDiningHall: null,
-       diningHalls: [{title: 'Colleges Nine & Ten', icon: 'face'},{title: 'Cowell/Stevenson', icon: 'dns'},{title: 'Crown/Merrill', icon: 'eject'},{title: 'Porter/Kresge', icon: 'event_seat'},{title: 'Rachel Carson/Oakes', icon: 'explore'} ],
-       currentMenu: null,
-       pictures: [],
-       labels: []
+         { meal: 'Breakfast', menu: [] }, { meal: 'Lunch', menu: [] }, { meal: 'Dinner', menu: [] }, { meal: 'Late Night', menu: [] }
+      ],
+      selectedDiningHall: null,
+      diningHalls: [{ title: 'Colleges Nine & Ten', icon: 'face' }, { title: 'Cowell/Stevenson', icon: 'dns' }, { title: 'Crown/Merrill', icon: 'eject' }, { title: 'Porter/Kresge', icon: 'event_seat' }, { title: 'Rachel Carson/Oakes', icon: 'explore' }],
+      currentMenu: null,
+      pictures: [],
+      labels: [],
+      progressBar: false
 
    },
    mutations: { // This is where the modification to the state is hapenning
-        changeSelectedDiningHall (state, payload){
-           state.selectedDiningHall = payload
-        },
-        addItems(state, payload){
-        
-        
-           state.items[0].menu = payload.breakfast
-           state.items[1].menu = payload.lunch
-           state.items[2].menu = payload.dinner
-           state.items[3].menu = payload.latenight
+      changeSelectedDiningHall(state, payload) {
+         state.selectedDiningHall = payload
+      },
+      addItems(state, payload) {
+
+
+         state.items[0].menu = payload.breakfast
+         state.items[1].menu = payload.lunch
+         state.items[2].menu = payload.dinner
+         state.items[3].menu = payload.latenight
+
+         state.progressBar = false
 
 
          //   state.items[0].menu[0].name = payload.lunch
 
-        },
-        addPics(state, payload){
+      },
+      addPics(state, payload) {
          //   console.log(payload)
-           state.pictures = payload
+         state.pictures = payload
 
-        },
-        addOnePic(state, payload){
-           console.log('This is from mutations' + payload.url)
+         state.progressBar = false
 
-           let theImageUrl = payload.url
+      },
+      addOnePic(state, payload) {
+         console.log('This is from mutations' + payload.url)
+
+         let theImageUrl = payload.url
 
          axios.get('https://us-central1-ucscdining2.cloudfunctions.net/helloWorld', {
             params: {
                url: payload.url
             }
          })
-         .then(function (response) {
-            console.log(response.data);
-            state.labels = response.data
-         })
-         .catch(function (error) {
-            console.log(error);
-         })
-         .then(function () {
-            // always executed
-         }); 
+            .then(function (response) {
+               console.log(response.data);
+               state.labels = response.data
+            })
+            .catch(function (error) {
+               console.log(error);
+            })
+            .then(function () {
+               // always executed
+            });
 
 
-           state.pictures.unshift(payload)
-        }
+         state.pictures.unshift(payload)
+      }
 
    },
    actions: { // async functions
 
-      fetchDiningHall({commit}, payload){
+      fetchDiningHall({ commit }, payload) {
+         
          var currentDiningHall = payload
-         commit('changeSelectedDiningHall',payload)
+         commit('changeSelectedDiningHall', payload)
 
          var breakfastMenu = []
          var lunchMenu = []
@@ -81,17 +87,17 @@ export const store = new Vuex.Store({
          var count = 0
 
          db.collection("allitems").where("dininghallname", "==", currentDiningHall)
-         .orderBy("order").get()
-         .then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
+            .orderBy("order").get()
+            .then(function (querySnapshot) {
+               querySnapshot.forEach(function (doc) {
                   // doc.data() is never undefined for query doc snapshots
                   // console.log(doc.id, " => ", doc.data());
                   var food = {
                      name: doc.data().food
                   };
-                  
-                  
-                  switch (doc.data().timeofmeal){
+
+
+                  switch (doc.data().timeofmeal) {
                      case 'Breakfast':
                         // console.log('found breakfast')
                         breakfastMenu.push(food)
@@ -109,14 +115,14 @@ export const store = new Vuex.Store({
                         // console.log('found Dinner')
                         lateNightMenu.push(food)
                         break;
-            
+
                   }
 
+               });
+            })
+            .catch(function (error) {
+               console.log("Error getting documents: ", error);
             });
-         })
-         .catch(function(error) {
-            console.log("Error getting documents: ", error);
-         });
 
          var data = {
             breakfast: breakfastMenu,
@@ -125,41 +131,42 @@ export const store = new Vuex.Store({
             latenight: lateNightMenu
          }
 
-         commit('addItems',data)
+         commit('addItems', data)
 
-         
+
 
 
       },
-      createPic ({commit, getters}, payload) {
+      createPic({ commit, getters }, payload) {
          const filename = payload.image.name
          const ext = filename.slice(filename.lastIndexOf('.'))
          fstorage.ref('meetups/' + payload.title + ext).put(payload.image)
-         .then( (snapshot) => {
-            var filePath =  snapshot.metadata.fullPath
-            return fstorage.ref(filePath).getDownloadURL()
-         })
-         .then((img) => {
-            // console.log(img)
+            .then((snapshot) => {
+               var filePath = snapshot.metadata.fullPath
+               return fstorage.ref(filePath).getDownloadURL()
+            })
+            .then((img) => {
+               // console.log(img)
 
-            var picData = {
-               food: payload.title,
-               url: img
-            }
+               var picData = {
+                  food: payload.title,
+                  url: img
+               }
 
-            db.collection('pictures').doc().set(picData)
-            commit('addOnePic', picData)
-            return picData.url
-         })
-         .then ( imgUrl => {
-            // console.log('this is where the img url is' + imgUrl)
-            
-         
-         })
+               db.collection('pictures').doc().set(picData)
+               commit('addOnePic', picData)
+               return picData.url
+            })
+            .then(imgUrl => {
+               // console.log('this is where the img url is' + imgUrl)
+
+
+            })
          // Reach out to firebase and store it
       },
 
-      fetchPics({commit}, payload){
+      fetchPics({ commit }, payload) {
+         
          console.log('This is fetching image for ' + payload)
 
          var imageForPics = []
@@ -167,25 +174,50 @@ export const store = new Vuex.Store({
          var foodName = payload
 
          db.collection("pictures").where("food", "==", foodName)
-         .get()
-         .then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
+            .get()
+            .then(function (querySnapshot) {
+               querySnapshot.forEach(function (doc) {
                   // console.log(doc.data())
                   imageForPics.push(doc.data())
+               });
+            })
+            .catch(function (error) {
+               console.log("Error getting documents: ", error);
             });
-         })
-         .catch(function(error) {
-            console.log("Error getting documents: ", error);
-         });
 
-      //   console.log(imageForPics)
+         //   console.log(imageForPics)
 
-         commit('addPics',imageForPics)
+         commit('addPics', imageForPics)
+
+      },
+
+      fetchAllPics({ commit }) {
+
+
+         var imageForPics = []
+
+      
+
+         db.collection("pictures")
+            .get()
+            .then(function (querySnapshot) {
+               querySnapshot.forEach(function (doc) {
+                  // console.log(doc.data())
+                  imageForPics.push(doc.data())
+               });
+            })
+            .catch(function (error) {
+               console.log("Error getting documents: ", error);
+            });
+
+         //   console.log(imageForPics)
+
+         commit('addPics', imageForPics)
 
       }
    },
    getters: {
-      
+
 
    }
 
