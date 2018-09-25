@@ -42,7 +42,7 @@
          <v-tabs slot="extension" v-model="tab" color="indigo" grow>
             <v-tabs-slider color="yellow"></v-tabs-slider>
 
-            <v-tab v-for="item in items" :key="item.meal">
+            <v-tab v-for="item in items" :key="item.meal" >
                {{ item.meal }}
             </v-tab>
          </v-tabs>
@@ -65,9 +65,17 @@
 
          <v-tab-item v-for="item in items" :key="item.meal">
 
+              
+
 
 
             <v-card flat>
+                  <div v-if="item.closed">
+                        <br/>
+                        <center>
+                           <h1>Closed</h1>
+                        </center>
+                     </div>
 
 
 
@@ -75,13 +83,6 @@
                <v-card-text @click="goToPicture(foodName.name)" v-for="foodName in item.menu" :key="foodName.index">{{ foodName.name }}
                </v-card-text>
 
-
-               <div v-if="item.menu.length == 0">
-                  <br/>
-                  <center>
-                     <h1>Closed</h1>
-                  </center>
-               </div>
 
                <!-- :src="`https://randomuser.me/api/portraits/men/${i + 20}.jpg`" -->
 
@@ -157,53 +158,34 @@
          diningHalls() {
             return this.$store.state.diningHalls
          },
+         
          spaces() {
+            console.log(parseInt(this.tab))
 
+            const Breakfast = 0
+            const Lunch = 1
+            const Dinner = 2
+            const LateNight = 3
 
-            var items = this.$store.state.items
+               if (parseInt(this.tab) == Breakfast && this.$store.state.spaceCounter.breakfastCount < 15){
 
-            var Breakfast = 0;
-            var Lunch = 1;
-            var Dinner = 2;
-            var LateNight = 3;
+               this.$store.state.currentSpace = 15 - this.$store.state.spaceCounter.breakfastCount
+            }
+            else if (parseInt(this.tab) == Lunch && this.$store.state.spaceCounter.lunchCount < 15){
 
-            var spaceToFill = 13;
-
-            //   if (parseInt(this.tab) == Breakfast){
-
-            //      var theLength = items[Breakfast].menu.length
-
-            //       // theLength == 0 ? this.closed = true : this.closed = false
-
-            //      return spaceToFill - theLength
-            //   }
-            //   else if (parseInt(this.tab) == Lunch){
-
-            //    console.log(items[Lunch])
-            //    var theLength = items[Lunch].menu.length
-
-            //    // theLength == 0 ? this.closed = true : this.closed = false
-
-            //    return spaceToFill - theLength
-            //   }
-            //   else if (parseInt(this.tab) == Dinner){
-            //    var theLength = items[Dinner].menu.length
-            //    // theLength == 0 ? this.closed = true : this.closed = false
-            //    return spaceToFill - theLength
-
-            //   }
-            //   else if (parseInt(this.tab) == LateNight){
-            //       var theLength = items[LateNight].menu.length
-            //    //   theLength == 0 ? this.closed = true : this.closed = false
-            //      return spaceToFill - theLength
-            //   }
-            //   else {
-            //      console.log(this.tab)
-            //      return spaceToFill
-            //   }
-
-
-            return 5
+                  this.$store.state.currentSpace = 15 - this.$store.state.spaceCounter.lunchCount
+            }
+            else if (parseInt(this.tab) == Dinner && this.$store.state.spaceCounter.dinnerCount < 15){
+                  this.$store.state.currentSpace = 15 - this.$store.state.spaceCounter.dinnerCount
+            }
+            else if (parseInt(this.tab) == LateNight && this.$store.state.spaceCounter.lateNightCount < 15){
+                  this.$store.state.currentSpace = 15 - this.$store.state.spaceCounter.lateNightCount
+            }
+            else{
+               this.$store.state.currentSpace = 0
+            }
+            
+            return this.$store.state.currentSpace
 
 
          }
@@ -238,6 +220,30 @@
             //  this.$store.state.selectedDiningHall = theRoute.params.dininghall
 
          },
+         // selectedTime(time){
+         //    console.log(time)
+
+            
+
+         //    if (time == 'Breakfast' && this.$store.state.spaceCounter.breakfastCount < 15){
+
+         //       this.$store.state.currentSpace = 15 - this.$store.state.spaceCounter.breakfastCount
+         //    }
+         //    else if (time == 'Lunch' && this.$store.state.spaceCounter.lunchCount < 15){
+
+         //          this.$store.state.currentSpace = 15 - this.$store.state.spaceCounter.lunchCount
+         //    }
+         //    else if (time == 'Dinner' && this.$store.state.spaceCounter.dinnerCount < 15){
+         //          this.$store.state.currentSpace = 15 - this.$store.state.spaceCounter.dinnerCount
+         //    }
+         //    else if (time == 'Late Night' && this.$store.state.spaceCounter.lateNightCount < 15){
+         //          this.$store.state.currentSpace = 15 - this.$store.state.spaceCounter.lateNightCount
+         //    }
+         //    else{
+         //       this.$store.state.currentSpace = 0
+         //    }
+            
+         // },
          goToPicture(food) {
           
 

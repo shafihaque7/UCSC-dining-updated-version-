@@ -22,7 +22,11 @@
 
             <v-flex xs12 sm6 offset-sm3>
                   <center>
-                  <h3 v-for="(label,index) in labels" :key="index">{{ label.description }}</h3>
+                     <div v-for="(label,index) in labels" :key="index">
+                  <h3 >{{ label.description }}  </h3>
+                  <h5>{{ label.score }}</h5>
+                  </div>
+                
                      </center>
             </v-flex>
           </v-layout>
