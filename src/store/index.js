@@ -51,7 +51,7 @@ export const store = new Vuex.Store({
             state.items[1].closed = true
          }
          else{
-            state.items[0].closed = false
+            state.items[1].closed = false
 
          }
 
@@ -60,7 +60,7 @@ export const store = new Vuex.Store({
          }
 
          else{
-            state.items[0].closed = false
+            state.items[2].closed = false
 
          }
 
@@ -68,7 +68,7 @@ export const store = new Vuex.Store({
             state.items[3].closed = true
          }
          else{
-            state.items[0].closed = false
+            state.items[3].closed = false
 
          }
 
