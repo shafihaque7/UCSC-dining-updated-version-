@@ -22,7 +22,7 @@ export const fstorage = firebase.storage()
 
 Vue.use(Vuetify)
 
-Vue.config.productionTip = true
+Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
