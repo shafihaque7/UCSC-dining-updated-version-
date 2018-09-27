@@ -1,5 +1,19 @@
 <template>
    <div>
+         <v-toolbar color="indigo" flat>
+               <v-btn icon light @click="$router.go(-1)">
+                 <v-icon color="white">arrow_back</v-icon>
+               </v-btn>
+     
+               <v-toolbar-title class="white--text">Machine Learning</v-toolbar-title>
+     
+               <v-spacer></v-spacer>
+              
+            
+ 
+            
+             </v-toolbar>
+             <br/>
    <center><h2>This is a demo of machine learning with images.</h2></center>
    <v-layout row>
          <v-flex xs12 sm6 offset-sm3>
