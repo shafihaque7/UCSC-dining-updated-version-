@@ -21,10 +21,18 @@ export const store = new Vuex.Store({
       labels: [],
       spaceCounter: [],
       currentSpace: 0,
-      progressBar: false
+      progressBar: false,
+      allFood:[]
 
    },
    mutations: { // This is where the modification to the state is hapenning
+      addAllFood(state, payload){
+         state.allFood = payload
+         // console.log(state.allFood)
+
+         // console.log(state.allFood)
+
+      },
       changeSelectedDiningHall(state, payload) {
          state.selectedDiningHall = payload
       },
@@ -140,6 +148,37 @@ export const store = new Vuex.Store({
 
    },
    actions: { // async functions
+      fetchAllFood({ commit }, payload) {
+         var allFood = []
+         console.log('Came to fetch for all food')
+         db.collection("allitems")
+            .orderBy("food").get()
+            .then(function (querySnapshot) {
+               querySnapshot.forEach(function (doc) {
+                  // doc.data() is never undefined for query doc snapshots
+                  // console.log(doc.id, " => ", doc.data());
+
+
+                  allFood.push(doc.data())
+
+      
+
+               });
+
+         
+            })
+            .then(function(){
+               // console.log(allFood)
+               commit('addAllFood', allFood)
+
+               
+            })
+            
+            .catch(function (error) {
+               console.log("Error getting documents: ", error);
+            });
+         
+      },
 
       fetchDiningHall({ commit }, payload) {
          
