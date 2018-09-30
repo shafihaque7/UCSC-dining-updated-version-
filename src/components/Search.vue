@@ -50,7 +50,7 @@
                <v-flex xs3>
                   {{ item.timeofmeal}}
                </v-flex>
-               <v-flex xs5>
+               <v-flex xs5 @click='goToDiningHall(item.dininghallname)'>
                   {{ item.dininghallname }}
                </v-flex>
 
@@ -125,6 +125,10 @@
          }
       },
       methods: {
+         goToDiningHall(dininghallname){
+            console.log('This is where its clicked')
+            this.$router.push({ name: 'DiningHall', params: { dininghall: dininghallname } })
+         },
          // 
          initialize() {
             this.$store.state.progressBar = true
