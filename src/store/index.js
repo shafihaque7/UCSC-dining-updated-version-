@@ -28,6 +28,7 @@ export const store = new Vuex.Store({
    mutations: { // This is where the modification to the state is hapenning
       addAllFood(state, payload){
          state.allFood = payload
+         state.progressBar = false
          // console.log(state.allFood)
 
          // console.log(state.allFood)

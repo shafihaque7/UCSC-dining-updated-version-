@@ -127,6 +127,7 @@
       methods: {
          // 
          initialize() {
+            this.$store.state.progressBar = true
             console.log('Came here')
             // this.$store.state.progressBar = true
             var dt = new Date();
