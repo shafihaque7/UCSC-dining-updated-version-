@@ -146,18 +146,7 @@
 
 
          // Finish this code when you have
-
-
-         this.initialize(this.$route)
-
-
-
-      },
-      methods: {
-         // 
-         initialize(theRoute) {
-
-            var dt = new Date();
+         var dt = new Date();
             var time = dt.getHours();
 
             if (time >= 0 && time < 11) {
@@ -177,6 +166,18 @@
                this.tab = 3
 
             }
+
+
+         this.initialize(this.$route)
+
+
+
+      },
+      methods: {
+         // 
+         initialize(theRoute) {
+
+           
             this.$store.state.progressBar = true
             console.log(theRoute.params.dininghall)
             this.$store.dispatch('fetchDiningHall', theRoute.params.dininghall)
