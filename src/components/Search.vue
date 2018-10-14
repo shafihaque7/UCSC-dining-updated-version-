@@ -5,7 +5,7 @@
             <v-icon color="white">arrow_back</v-icon>
          </v-btn>
          <v-flex xs12 sm6 offset-sm3>
-            <v-text-field v-model="search" label="Search" hide-details dark color="white"></v-text-field>
+            <v-text-field class="mt-2" v-model="search" label="Search" hide-details dark color="white"></v-text-field>
          </v-flex>
 
 
