@@ -131,6 +131,9 @@
          },
          // 
          initialize() {
+            mixpanel.track("Clicked Search");
+ 
+            
             this.$store.state.progressBar = true
             console.log('Came here')
             // this.$store.state.progressBar = true
