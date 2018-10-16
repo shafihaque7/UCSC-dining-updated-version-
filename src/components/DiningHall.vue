@@ -177,6 +177,8 @@
          // 
          initialize(theRoute) {
 
+            mixpanel.track(theRoute.params.dininghall);
+
            
             this.$store.state.progressBar = true
             console.log(theRoute.params.dininghall)
