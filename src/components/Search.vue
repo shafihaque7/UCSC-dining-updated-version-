@@ -1,7 +1,7 @@
 <template>
    <div>
       <v-toolbar color="indigo" dark fixed app>
-         <v-btn icon light @click="$router.go(-1)">
+         <v-btn icon light @click="goBackPage">
             <v-icon color="white">arrow_back</v-icon>
          </v-btn>
          <v-flex xs12 sm6 offset-sm3>
@@ -60,6 +60,13 @@
 
          </v-card-text>
 
+         <v-card-text v-if="noFoodFound && allFood.length == 0">
+
+            <center>No item with name {{search}} found</center>
+            
+
+         </v-card-text>
+
 
 
 
@@ -78,6 +85,16 @@
 <script>
    export default {
       computed: {
+
+         noFoodFound(){
+            if (this.$store.state.progressBar == true){
+               return false
+            }
+            else{
+               return true
+            }
+
+         },
          allFood() {
             var allTheFood = this.$store.state.allFood
 
@@ -104,7 +121,7 @@
 
 
             });
-         }
+         },
 
       },
       beforeRouteUpdate(to, from, next) {
@@ -125,13 +142,26 @@
          }
       },
       methods: {
+
+         goBackPage(){
+            // mixpanel.track("Searched "+this.search);
+
+            mixpanel.track(
+               "Searched",
+               {"item": this.search}
+            );
+            // console.log('CLicked go back page')
+            this.$router.go(-1)
+            // console.log(this.search)
+            
+         },
          goToDiningHall(dininghallname){
             console.log('This is where its clicked')
             this.$router.push({ name: 'DiningHall', params: { dininghall: dininghallname } })
          },
          // 
          initialize() {
-            mixpanel.track("Clicked Search");
+            
  
             
             this.$store.state.progressBar = true
