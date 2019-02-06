@@ -19,7 +19,7 @@
 
             </v-list-tile>
 
-            <v-list-tile router-link to="cloudvision">
+            <!-- <v-list-tile router-link to="cloudvision">
 
                <v-list-tile-action>
                   <v-icon>face</v-icon>
@@ -28,7 +28,7 @@
                   <v-list-tile-title>Machine Learning Demo</v-list-tile-title>
                </v-list-tile-content>
 
-            </v-list-tile>
+            </v-list-tile> -->
 
 
 

@@ -85,7 +85,6 @@
 <script>
    export default {
       computed: {
-
          noFoodFound(){
             if (this.$store.state.progressBar == true){
                return false
@@ -93,11 +92,9 @@
             else{
                return true
             }
-
          },
          allFood() {
             var allTheFood = this.$store.state.allFood
-
             if (this.BreakfastSelected == false) {
                allTheFood = allTheFood.filter(one => one.timeofmeal != 'Breakfast')
             }
@@ -110,19 +107,11 @@
             if (this.LateNightSelected == false) {
                allTheFood = allTheFood.filter(one => one.timeofmeal != 'Late Night')
             }
-
             return allTheFood.filter((one) => {
                // console.log(this.search);
-
                return ((one.food).toLowerCase()).match(((this.search).toLowerCase()));
-
-
-
-
-
             });
          },
-
       },
       beforeRouteUpdate(to, from, next) {
          this.initialize()
@@ -130,7 +119,6 @@
       },
       created() {
          this.initialize()
-
       },
       data() {
          return {
@@ -142,10 +130,8 @@
          }
       },
       methods: {
-
          goBackPage(){
             // mixpanel.track("Searched "+this.search);
-
             mixpanel.track(
                "Searched",
                {"item": this.search}
@@ -169,21 +155,17 @@
             // this.$store.state.progressBar = true
             var dt = new Date();
             var time = dt.getHours();
-
             if (time >= 0 && time < 11) {
                this.BreakfastSelected = true
                this.LunchSelected = false
                this.DinnerSelected = false
                this.LateNightSelected = false
             }
-
             else if (time >= 11 && time < 17) {
                this.BreakfastSelected = false
                this.LunchSelected = true
                this.DinnerSelected = false
                this.LateNightSelected = false
-
-
             }
             else if (time >= 17 && time <= 22) {
                this.BreakfastSelected = false
@@ -192,22 +174,15 @@
                this.LateNightSelected = false
               
             }
-
             else {
                this.BreakfastSelected = false
                this.LunchSelected = false
                this.DinnerSelected = false
                this.LateNightSelected = true
                
-
             }
             this.$store.dispatch('fetchAllFood')
-
-
-
          },
-
       }
-
    }
 </script>
